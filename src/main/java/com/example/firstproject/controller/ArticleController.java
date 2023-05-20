@@ -12,15 +12,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Controller
-@Slf4j
+@Controller     //Controller선언
+@Slf4j  //log.info refactoring
 public class ArticleController {
+
     @Autowired //객체 자동연결
     private ArticleRepository articleRepository;
+
     @GetMapping("/articles/new")
     public String newArticleForm() {
         return "articles/new";
     }
+
     @PostMapping("/articles/create")
     public String createArticle(ArticleForm form) {
         log.info(form.toString());
@@ -30,19 +33,19 @@ public class ArticleController {
         log.info(article.toString());
 
         // 2. Repository에게 Entity를 DB로 저장하게 함
-        Article saved = articleRepository.save(article);
+        Article saved = articleRepository.save(article);// save jpa에 제공하는...
         log.info(saved.toString());
 
-        return "redirect:/articles/" + saved.getId();
+        return "redirect:/articles/"+saved.getId(); //리다이렉트 페이지 정의
     }
 
     @GetMapping("/articles/{id}")
         public String show(@PathVariable Long id, Model model){
             log.info("id = "+id);
-            //1. id로 데이터 가져옴
+            //1. id로 데이터 가져옴 (repository가 서버에서 data들고옴)
              Article artilceEntity=articleRepository.findById(id).orElse(null);
             //2. 가져온 데이터 모델에 등록
-        model.addAttribute("article", artilceEntity);
+            model.addAttribute("article", artilceEntity);
             //3. 보여줄 페이지 설정
             return"articles/show";
         }
@@ -78,7 +81,7 @@ public class ArticleController {
             if(target != null){
                 articleRepository.save(articleEntity);
             }
-        return "redirect : /articles/"+articleEntity.getId();
+        return "redirect:/articles/"+articleEntity.getId();
         }
 
         @GetMapping("/articles/{id}/delete")

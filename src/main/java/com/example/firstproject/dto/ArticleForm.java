@@ -4,8 +4,8 @@ import com.example.firstproject.entity.Article;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
-@AllArgsConstructor
-@ToString
+@AllArgsConstructor //생성자메서드 리팩토링
+@ToString   //tostring 메서드 리펙토링
 public class ArticleForm {
     private Long id;
     private String title;
@@ -23,7 +23,6 @@ public class ArticleForm {
     }*/
 
     public Article toEntity() {
-
         return new Article(id, title, content);
     }
 }

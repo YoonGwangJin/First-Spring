@@ -70,22 +70,22 @@ public class ArticleService {
     @Transactional
     public List<Article> createArticles(List<ArticleForm> dtos) {
         //1.dto묶음을 entity묶음으로
-        List<Article> articleList = dtos.stream()
-                .map(dto -> dto.toEntity())
-                .collect(Collectors.toList());
-//        List<Article> articleList = new ArrayList<>();
-//        for(int i=0; i<dtos.size(); i++){
-//            ArticleForm dto =dtos.get(i);
-//            Article entity = dto.toEntity();
-//            articleList.add(entity);
-//        }
+//        List<Article> articleList = dtos.stream()
+//                .map(dto -> dto.toEntity())
+//                .collect(Collectors.toList());
+        List<Article> articleList = new ArrayList<>();
+        for(int i=0; i<dtos.size(); i++){
+            ArticleForm dto =dtos.get(i);
+            Article entity = dto.toEntity();
+            articleList.add(entity);
+        }
         //2. entity묶음을 db로 저장
-        articleList.stream()
-                .forEach(article -> articleRepository.save(article));
-//        for(int i=0; i<articleList.size(); i++){
-//            Article article = articleList.get(i);
-//            articleRepository.save(article);
-//        }
+//        articleList.stream()
+//                .forEach(article -> articleRepository.save(article));
+        for(int i=0; i<articleList.size(); i++){
+            Article article = articleList.get(i);
+            articleRepository.save(article);
+        }
         //3. 강제로 예외
         articleRepository.findById(-1L).orElseThrow(
                 ()->new IllegalArgumentException("결재실패")

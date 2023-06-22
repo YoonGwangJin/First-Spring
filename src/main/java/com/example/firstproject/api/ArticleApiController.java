@@ -60,8 +60,8 @@ public class ArticleApiController {
 
     //트랜잭션 -> 실패? -> 롤백
     @PostMapping("/api/transactional-test")
-    public ResponseEntity<List<Article>> transcationTest(@RequestBody List<Article> dtos){
-        List<Article> createdList = ArticleService.createArticles(dtos);
+    public ResponseEntity<List<Article>> transcationTest(@RequestBody List<ArticleForm> dtos){
+        List<Article> createdList = articleService.createArticles(dtos); //생성자가 없이 클래스 메서드 소환햇는데 static으로 선언안되있음
         return (createdList != null)?
                 ResponseEntity.status(HttpStatus.OK).body(createdList):
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

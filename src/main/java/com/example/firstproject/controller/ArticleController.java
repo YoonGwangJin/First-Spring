@@ -1,8 +1,10 @@
 package com.example.firstproject.controller;
 import java.util.List;
 import com.example.firstproject.dto.ArticleForm;
+import com.example.firstproject.dto.CommentDto;
 import com.example.firstproject.entity.Article;
 import com.example.firstproject.repository.ArticleRepository;
+import com.example.firstproject.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,9 @@ public class ArticleController {
 
     @Autowired //객체 자동연결
     private ArticleRepository articleRepository;
+
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("/articles/new")
     public String newArticleForm() {
@@ -39,16 +44,16 @@ public class ArticleController {
         return "redirect:/articles/"+saved.getId(); //리다이렉트 페이지 정의
     }
 
-    @GetMapping("/articles/{id}")
-        public String show(@PathVariable Long id, Model model){
-            log.info("id = "+id);
-            //1. id로 데이터 가져옴 (repository가 서버에서 data들고옴)
-             Article artilceEntity=articleRepository.findById(id).orElse(null);
-            //2. 가져온 데이터 모델에 등록
-            model.addAttribute("article", artilceEntity);
-            //3. 보여줄 페이지 설정
-            return"articles/show";
-        }
+//    @GetMapping("/articles/{id}")
+//        public String show(@PathVariable Long id, Model model){
+//            log.info("id = "+id);
+//            //1. id로 데이터 가져옴 (repository가 서버에서 data들고옴)
+//             Article artilceEntity=articleRepository.findById(id).orElse(null);
+//            //2. 가져온 데이터 모델에 등록
+//            model.addAttribute("article", artilceEntity);
+//            //3. 보여줄 페이지 설정
+//            return"articles/show";
+//        }
         @GetMapping("/articles")
         public String index(Model model){
             //1. 모든 Article을 가져온다
@@ -98,5 +103,19 @@ public class ArticleController {
             //3. 결과 페이지로 리다이렉트
         return"redirect : /articles/index";
         }
+
+    @GetMapping("/articles/{id}") // 해당 URL요청을 처리 선언
+    public String show(@PathVariable Long id, Model model) { // URL에서 id를 변수로 가져옴
+        log.info("id = " + id);
+        // 1: id로 데이터를 가져옴!
+        Article articleEntity = articleRepository.findById(id).orElse(null);
+        List<CommentDto> commentsDtos = commentService.comments(id);
+        // 2: 가져온 데이터를 모델에 등록!
+        model.addAttribute("article", articleEntity);
+        model.addAttribute("commentDtos", commentsDtos);
+        // 3: 보여줄 페이지를 설정!
+        return "articles/show";
+    }
+
 
 }

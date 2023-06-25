@@ -6,10 +6,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.stereotype.Service;
 
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@ToString
 public class CommentDto {
     private Long id;
     private Long articleId;
@@ -18,8 +18,8 @@ public class CommentDto {
 
     public static CommentDto createCommentDto(Comment comment) {
         return new CommentDto(
-            comment.getId(),
-            comment.getArticle().getId(),
+                comment.getId(),
+                comment.getArticle().getId(),
                 comment.getNickname(),
                 comment.getBody()
         );

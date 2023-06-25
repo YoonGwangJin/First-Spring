@@ -23,16 +23,17 @@ public class CommentService {
     private ArticleRepository articleRepository;
 
     public List<CommentDto> comments(Long articleId) {
-        //댓글목록 조회
+        // 조회: 댓글 목록
         List<Comment> comments = commentRepository.findByArticleId(articleId);
-        //엔터티를 dto형태로 반환
+        // 변환: 엔티티 -> DTO
         List<CommentDto> dtos = new ArrayList<CommentDto>();
-        for(int i = 0; i<comments.size(); i++){
-            Comment comment = comments.get(i);
-            CommentDto dto = CommentDto.createCommentDto(comment);
+
+        for (int i = 0; i < comments.size(); i++) {
+            Comment c = comments.get(i);
+            CommentDto dto = CommentDto.createCommentDto(c);
             dtos.add(dto);
         }
-        //반환
+        // 반환
         return dtos;
     }
 }

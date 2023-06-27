@@ -109,10 +109,10 @@ public class ArticleController {
         log.info("id = " + id);
         // 1: id로 데이터를 가져옴!
         Article articleEntity = articleRepository.findById(id).orElse(null);
-        List<CommentDto> commentsDtos = commentService.comments(id);
+        List<CommentDto> commentDtos = commentService.comments(id);
         // 2: 가져온 데이터를 모델에 등록!
         model.addAttribute("article", articleEntity);
-        model.addAttribute("commentDtos", commentsDtos);
+        model.addAttribute("commentDtos", commentDtos);
         // 3: 보여줄 페이지를 설정!
         return "articles/show";
     }

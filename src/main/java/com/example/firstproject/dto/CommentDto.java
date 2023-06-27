@@ -2,6 +2,7 @@ package com.example.firstproject.dto;
 
 import com.example.firstproject.entity.Article;
 import com.example.firstproject.entity.Comment;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 @ToString
 public class CommentDto {
     private Long id;
+
+    @JsonProperty("article_id")
     private Long articleId;
     private String nickname;
     private String body;
